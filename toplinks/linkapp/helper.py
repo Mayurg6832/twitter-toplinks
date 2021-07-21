@@ -1,13 +1,12 @@
-import re
+from urllib.parse import urlparse
 from datetime import datetime
 
 
 def get_domain(url):
     '''Take out Domain from the URLs'''
-
-    m = re.search('https?://([A-Za-z_0-9.-]+).*', url)
-    if m:
-        return m.group(1)
+    p_url = urlparse(url)
+    result = '{uri.netloc}'.format(uri=p_url)
+    return result
 
 
 def past_7_days(tweets):
