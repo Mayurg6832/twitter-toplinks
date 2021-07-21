@@ -1,0 +1,2 @@
+DROP DATABASE testapp;
+DROP USER test;
