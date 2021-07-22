@@ -16,7 +16,7 @@ def past_7_days(tweets):
     for tweet in tweets:
         urls = tweet.entities.get('urls')
         days = (datetime.now() - tweet.created_at).days
-        if urls and urls[0].get('expanded_url') and days <= 7:
+        if urls and days <= 7:
             tweet_, domain = {}, {}
             tweet_['tweet_id'] = tweet.id_str
             domain['tweet_id'] = tweet.id_str
