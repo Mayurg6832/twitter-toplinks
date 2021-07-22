@@ -42,13 +42,26 @@ twitter-toplinks app
    cd toplinks
    ```
 
-6. Run the migrations command to create the DB tables
+6. Create the Database by running the sql file
+   open the psql terminal and run the file
+
+   ```
+   \i create.sql
+   ```
+
+   and, after running the project, drop the database
+
+   ```
+   \i destroy.sql
+   ```
+
+7. Run the migrations command to create the DB tables
 
    ```
    python manage.py migrate
    ```
 
-7. Run the server by
+8. Run the server by
 
    ```
    python manage.py runserver
