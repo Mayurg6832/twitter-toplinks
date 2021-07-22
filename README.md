@@ -42,7 +42,13 @@ twitter-toplinks app
    cd toplinks
    ```
 
-6. Run the server by
+6. Run the migrations command to create the DB tables
+
+   ```
+   python manage.py migrate
+   ```
+
+7. Run the server by
 
    ```
    python manage.py runserver
