@@ -68,8 +68,11 @@ class LoadAllTweets(APIView):
 
         # For self Tweets
         for tweet, domain in tweets_7_days:
-            Tweet.objects.get_or_create(**tweet)
-            Domain.objects.get_or_create(**domain)
+            try:
+                tweet = Tweet.objects.get(tweet_id=tweet.get('tweet_id'))
+            except Exception:
+                Tweet.objects.get_or_create(**tweet)
+                Domain.objects.get_or_create(**domain)
 
         # For friends Tweets
         for follower in api.friends(screen_name):
@@ -79,8 +82,11 @@ class LoadAllTweets(APIView):
             )
             tweets_7_days = past_7_days(tweets, screen_name)
             for tweet, domain in tweets_7_days:
-                Tweet.objects.get_or_create(**tweet)
-                Domain.objects.get_or_create(**domain)
+                try:
+                    tweet = Tweet.objects.get(tweet_id=tweet.get('tweet_id'))
+                except Exception:
+                    Tweet.objects.get_or_create(**tweet)
+                    Domain.objects.get_or_create(**domain)
 
         request.session['user_id'] = user_id
         return HttpResponseRedirect('/homepage/')
