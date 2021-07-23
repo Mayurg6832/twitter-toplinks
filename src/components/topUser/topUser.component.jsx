@@ -8,7 +8,7 @@ class AllUser extends Component {
     };
   }
   componentDidMount() {
-    const apiUrl = "http://127.0.0.1:8000/api/top_user";
+    const apiUrl = "https://toplink-mayur.herokuapp.com/api/top_user";
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => this.setState({ users: data }));

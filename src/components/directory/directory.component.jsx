@@ -9,7 +9,7 @@ class Directory extends Component {
     };
   }
   componentDidMount() {
-    const apiUrl = "http://127.0.0.1:8000/api/all_tweets";
+    const apiUrl = "https://toplink-mayur.herokuapp.com/api/all_tweets";
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => this.setState({ tweets: data }));

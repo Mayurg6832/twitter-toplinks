@@ -27,9 +27,23 @@
         <a
           target="_blank"
           class="btn btn-dark btn-md"
-          href="{% url 'all_tweets' %}"
+          href="{% url 'all_tweet' %}"
           role="button"
           >All Tweets</a
+        >
+        <a
+          target="_blank"
+          class="btn btn-dark btn-md"
+          href="{% url 'top_domain' %}"
+          role="button"
+          >Top Domain</a
+        >
+        <a
+          target="_blank"
+          class="btn btn-dark btn-md"
+          href="{% url 'top_user' %}"
+          role="button"
+          >All User</a
         >
       </p>
       {% else %}
@@ -43,7 +57,6 @@
         >
       </p>
       {% endif %}
-      <a href="{% url 'social:begin' 'twitter' %}">Twitter Login</a>
     </div>
   </body>
 </html>

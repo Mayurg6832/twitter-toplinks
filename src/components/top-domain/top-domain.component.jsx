@@ -8,7 +8,7 @@ class TopDomain extends Component {
     };
   }
   componentDidMount() {
-    const apiUrl = "http://127.0.0.1:8000/api/top_domain";
+    const apiUrl = "https://toplink-mayur.herokuapp.com/api/top_domain";
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => this.setState({ domain: data }));

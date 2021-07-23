@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+import django_heroku
+import dj_database_url
+import mimetypes
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,6 +19,8 @@ SECRET_KEY = \
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("application/javascript", ".js", True)
 
 
 # Application definition
@@ -30,7 +35,6 @@ INSTALLED_APPS = [
 
     'linkapp.apps.LinkappConfig',
 
-    'social_django',
     'rest_framework',
     'corsheaders',
 ]
@@ -47,8 +51,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    'https://toplink-mayur.herokuapp.com'
 ]
 
 
@@ -57,7 +60,7 @@ ROOT_URLCONF = 'toplinks.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': [TEMPLATES_DIR, os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -65,47 +68,34 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.twitter.TwitterOAuth',
-    'django.contrib.auth.backends.ModelBackend',
-)
 
 WSGI_APPLICATION = 'toplinks.wsgi.application'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.social_auth.associate_by_email',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-)
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  'testapp',
-        'USER': 'test',
-        'PASSWORD': 'mypass321',
-        'HOST': 'localhost',
-        'POST': '5432'
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME':  'testapp',
+#         'USER': 'test',
+#         'PASSWORD': 'mypass321',
+#         'HOST': 'localhost',
+#         'POST': '5432'
+#     }
+# }
+
+DATABASE = {
+    'default' : dj_database_url.config()
 }
 
 # flake8: noqa
@@ -146,13 +136,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-SOCIAL_AUTH_TWITTER_KEY = 'cB4CBHuRA6p2i58JW2ISrhjXf'
-SOCIAL_AUTH_TWITTER_SECRET = \
-    'aDwMm2Z3LdDnUDF576tCtJREQXa7a0Fo7EDnlOn8Vz6KX3vfLz'
+django_heroku.settings(locals())
