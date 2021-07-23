@@ -15,7 +15,7 @@ from linkapp.serializers import (
 
 consumer_key = 'cB4CBHuRA6p2i58JW2ISrhjXf'
 consumer_secret = 'aDwMm2Z3LdDnUDF576tCtJREQXa7a0Fo7EDnlOn8Vz6KX3vfLz'
-callback_url = 'https://toplink-mayur.herokuapp.com/callback/'
+callback_url = 'http://127.0.0.1:8000/callback/'
 screen_name = None
 
 
@@ -71,8 +71,10 @@ class LoadAllTweets(APIView):
             try:
                 tweet = Tweet.objects.get(tweet_id=tweet.get('tweet_id'))
             except Exception:
-                Tweet.objects.get_or_create(**tweet)
-                Domain.objects.get_or_create(**domain)
+                tweet = Tweet(**tweet)
+                domain = Domain(**domain)
+                tweet.save()
+                domain.save()
 
         # For friends Tweets
         for follower in api.friends(screen_name):
@@ -85,8 +87,10 @@ class LoadAllTweets(APIView):
                 try:
                     tweet = Tweet.objects.get(tweet_id=tweet.get('tweet_id'))
                 except Exception:
-                    Tweet.objects.get_or_create(**tweet)
-                    Domain.objects.get_or_create(**domain)
+                    tweet = Tweet(**tweet)
+                    domain = Domain(**domain)
+                    tweet.save()
+                    domain.save()
 
         request.session['user_id'] = user_id
         return HttpResponseRedirect('/homepage/')
